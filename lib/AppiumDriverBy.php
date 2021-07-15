@@ -9,39 +9,8 @@ namespace Facebook\WebDriver;
  *
  * @see WebDriver::findElement, WebDriverElement::findElement
  */
-class AppiumDriverBy
+class AppiumDriverBy extends WebDriverBy
 {
-    /**
-     * @var string
-     */
-    private $mechanism;
-    /**
-     * @var string
-     */
-    private $value;
-
-    protected function __construct($mechanism, $value)
-    {
-        $this->mechanism = $mechanism;
-        $this->value = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMechanism()
-    {
-        return $this->mechanism;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
 
     public static function accessibilityId($id)
     {
