@@ -11,6 +11,12 @@ namespace Facebook\WebDriver;
  */
 class AppiumDriverBy extends WebDriverBy
 {
+    public static $baseId = '';
+
+    public static function setBaseId($id)
+    {
+        static::$baseId = $id;
+    }
 
     public static function accessibilityId($id)
     {
@@ -19,7 +25,7 @@ class AppiumDriverBy extends WebDriverBy
 
     public static function text($text)
     {
-        return new static('-android uiautomator', 'new UiSelector().text("'.$text.'")');
+        return new static('-android uiautomator', 'new UiSelector().text("' . $text . '")');
     }
 
 
@@ -43,7 +49,7 @@ class AppiumDriverBy extends WebDriverBy
      */
     public static function id($id)
     {
-        return new static('id', $id);
+        return new static('id', static::$baseId . $id);
     }
 
     /**
