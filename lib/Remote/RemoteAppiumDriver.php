@@ -31,4 +31,9 @@ class RemoteAppiumDriver extends RemoteWebDriver
     {
         return $this->executeCustomCommand("/session/:sessionId/appium/device/push_file",'POST', ['path' => $path, 'data' => $data]);
     }
+
+    public function getDisplayDensity()
+    {
+        return $this->executeCustomCommand("/session/:sessionId/appium/device/display_density", 'GET');
+    }
 }
