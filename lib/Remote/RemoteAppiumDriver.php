@@ -14,6 +14,11 @@ class RemoteAppiumDriver extends RemoteWebDriver
         return $this->executeShell("input keyevent 279");
     }
 
+    public function back()
+    {
+        return $this->executeShell("input keyevent 4");
+    }
+
     public function executeShell($command)
     {
         return $this->executeCustomCommand("/session/:sessionId/execute", 'POST', [
