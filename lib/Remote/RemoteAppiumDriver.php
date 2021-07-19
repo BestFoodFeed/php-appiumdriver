@@ -36,4 +36,32 @@ class RemoteAppiumDriver extends RemoteWebDriver
     {
         return $this->executeCustomCommand("/session/:sessionId/appium/device/display_density", 'GET');
     }
+
+    public function startActivity($package, $activity)
+    {
+        return $this->executeCustomCommand("/session/:sessionId/appium/device/start_activity", 'POST', [
+            'appPackage' => $package,
+            'appActivity' => $activity
+        ]);
+    }
+
+    public function executeScroll($strategy, $selector, $elementId = null, $maxSwipes = null)
+    {
+        $args = [
+            'strategy' => $strategy,
+            'selector' => $selector,
+        ];
+        if ($elementId) {
+            $args['elementId'] = $elementId;
+        }
+        if ($maxSwipes) {
+            $args['maxSwipes'] = $maxSwipes;
+        }
+        
+        return $this->executeCustomCommand("/session/:sessionId/execute", 'POST', [
+            "script" => "mobile: scroll",
+            "args" => $args
+        ]);
+
+    }
 }
