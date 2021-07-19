@@ -68,4 +68,14 @@ class RemoteAppiumDriver extends RemoteWebDriver
         ]);
 
     }
+
+    public function executeStartActivity($intent, array $parameters = [])
+    {
+        $parameters['intent'] = $intent;
+        return $this->executeCustomCommand("/session/:sessionId/execute", 'POST', [
+            "script" => "mobile: startActivity",
+            "args" => $parameters
+        ]);
+
+    }
 }
