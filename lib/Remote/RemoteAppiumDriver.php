@@ -44,6 +44,10 @@ class RemoteAppiumDriver extends RemoteWebDriver
             'appActivity' => $activity
         ]);
     }
+    public function currentActivity()
+    {
+        return $this->executeCustomCommand("/session/:sessionId/appium/device/current_activity", 'GET');
+    }
 
     public function executeScroll($strategy, $selector, $elementId = null, $maxSwipes = null)
     {
@@ -57,7 +61,7 @@ class RemoteAppiumDriver extends RemoteWebDriver
         if ($maxSwipes) {
             $args['maxSwipes'] = $maxSwipes;
         }
-        
+
         return $this->executeCustomCommand("/session/:sessionId/execute", 'POST', [
             "script" => "mobile: scroll",
             "args" => $args
