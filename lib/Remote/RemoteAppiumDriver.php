@@ -75,6 +75,47 @@ class RemoteAppiumDriver extends RemoteWebDriver
 
     }
 
+    public function drag(int $startX, int $startY, int $endX, int $endY, int $speed = 2500)
+    {
+        $parameters = [
+            'startX' => $startX,
+            'startY' => $startY,
+            'endX' => $endX,
+            'endY' => $endY,
+            'speed' => $speed,
+        ];
+
+        return $this->executeGesture("drag", $parameters);
+    }
+
+    public function pinchClose($area, $percent, $speed = 2500)
+    {
+        $parameters = [
+            "percent" => $percent,
+            "speed" => $speed,
+        ];
+        if (is_array($area)) {
+            $parameters = array_merge($parameters, $area);
+        } else {
+            $parameters['elementId'] = $area;
+        }
+        return $this->executeGesture("pinchClose", $parameters);
+    }
+
+    public function pinchOpen($area, $percent, $speed = 2500)
+    {
+        $parameters = [
+            "percent" => $percent,
+            "speed" => $speed,
+        ];
+        if (is_array($area)) {
+            $parameters = array_merge($parameters, $area);
+        } else {
+            $parameters['elementId'] = $area;
+        }
+       return $this->executeGesture("pinchOpen", $parameters);
+    }
+
     public function executeStartActivity($intent, array $parameters = [])
     {
         $parameters['intent'] = $intent;
@@ -97,4 +138,15 @@ class RemoteAppiumDriver extends RemoteWebDriver
             "options" => $options
         ]);
     }
+
+    protected function executeGesture($name, $parameters)
+    {
+        return $this->executeCustomCommand("/session/:sessionId/execute", 'POST', [
+            "script" => "mobile: {$name}Gesture",
+            "args" => $parameters
+        ]);
+
+    }
+
+
 }
