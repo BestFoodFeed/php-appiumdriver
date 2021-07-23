@@ -14,6 +14,12 @@ class RemoteAppiumDriver extends RemoteWebDriver
         return $this->executeShell("input keyevent 279");
     }
 
+    public function type($text)
+    {
+        $this->driver->setClipboard($text);
+        return $this->driver->paste();
+    }
+
     public function back()
     {
         return $this->executeShell("input keyevent 4");
@@ -77,5 +83,18 @@ class RemoteAppiumDriver extends RemoteWebDriver
             "args" => $parameters
         ]);
 
+    }
+
+    public function tap($x, $y)
+    {
+        return $this->performTouch('tap', ['x' => $x, 'y' => $y]);
+    }
+
+    protected function performTouch($action, array $options)
+    {
+        return $this->executeCustomCommand("/session/:sessionId/touch/perform", 'POST', [
+            "action" => $action,
+            "options" => $options
+        ]);
     }
 }
