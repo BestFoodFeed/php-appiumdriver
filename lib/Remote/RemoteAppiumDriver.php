@@ -91,14 +91,21 @@ class RemoteAppiumDriver extends RemoteWebDriver
 
     }
 
-    public function swipe(string $elementId, string $direction, float $percent, int $speed = 10000)
+    public function swipe(RemoteWebElement $element, string $direction, float $percent, int $speed = 10000)
     {
         $parameters = [
-            'elementId' => $elementId,
             'direction' => $direction,
             'percent' => $percent,
             'speed' => $speed,
         ];
+        if (in_array($direction, ['left','right'])) {
+            $parameters['left'] = max($element->getLocation()->getX(), 100);
+            $parameters['top'] = $element->getLocation()->getY();
+            $parameters['width'] = min(880, $element->getSize()->getWidth());
+            $parameters['height'] = $element->getSize()->getHeight();
+        } else {
+            $parameters['elementId'] = $element->getID();
+        }
 
         return $this->executeGesture("swipe", $parameters);
     }
