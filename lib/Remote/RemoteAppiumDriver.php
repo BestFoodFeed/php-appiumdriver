@@ -75,6 +75,17 @@ class RemoteAppiumDriver extends RemoteWebDriver
 
     }
 
+    public function swipe(string $elementId, string $direction, float $percent, int $speed = 10000)
+    {
+        $parameters = [
+            'elementId' => $elementId,
+            'direction' => $direction,
+            'percent' => $percent,
+            'speed' => $speed,
+        ];
+
+        return $this->executeGesture("swipe", $parameters);
+    }
     public function drag(int $startX, int $startY, int $endX, int $endY, int $speed = 2500)
     {
         $parameters = [
