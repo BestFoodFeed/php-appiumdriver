@@ -16,8 +16,8 @@ class RemoteAppiumDriver extends RemoteWebDriver
 
     public function type($text)
     {
-        $this->driver->setClipboard($text);
-        return $this->driver->paste();
+        $this->setClipboard($text);
+        return $this->paste();
     }
 
     public function back()
