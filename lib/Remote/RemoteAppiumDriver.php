@@ -2,8 +2,24 @@
 
 namespace Facebook\WebDriver\Remote;
 
+use Facebook\WebDriver\WebDriverBy;
+
 class RemoteAppiumDriver extends RemoteWebDriver
 {
+
+    public function findElement(WebDriverBy $by, $nullable = false)
+    {
+        if ($nullable) {
+            try {
+                return parent::findElement($by);
+            } catch (\Throwable $th) {
+                return null;
+            }
+        } else {
+            return parent::findElement($by);
+        }
+    }
+
     public function setClipboard($text)
     {
         return $this->executeCustomCommand("/session/:sessionId/appium/device/set_clipboard", 'POST', ['content' => base64_encode($text)]);
