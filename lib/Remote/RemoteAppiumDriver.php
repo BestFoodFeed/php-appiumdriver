@@ -7,6 +7,13 @@ use Facebook\WebDriver\WebDriverBy;
 class RemoteAppiumDriver extends RemoteWebDriver
 {
 
+    public function setImplicitWait(int $ms)
+    {
+        return $this->executeCustomCommand("/session/:sessionId/timeouts/implicit_wait", 'POST', [
+            'ms' => $ms,
+        ]);
+    }
+
     public function findElement(WebDriverBy $by, $nullable = false)
     {
         if ($nullable) {
@@ -91,7 +98,7 @@ class RemoteAppiumDriver extends RemoteWebDriver
 
     }
 
-    public function swipe(RemoteWebElement $element, string $direction, float $percent, int $speed = 10000)
+    public function swipe(RemoteWebElement $element, string $direction, float $percent, int $speed = 10000, string $align = 'center')
     {
         $parameters = [
             'direction' => $direction,
@@ -100,9 +107,18 @@ class RemoteAppiumDriver extends RemoteWebDriver
         ];
         if (in_array($direction, ['left','right'])) {
             $parameters['left'] = max($element->getLocation()->getX(), 100);
-            $parameters['top'] = $element->getLocation()->getY();
             $parameters['width'] = min(880, $element->getSize()->getWidth());
-            $parameters['height'] = $element->getSize()->getHeight();
+
+            if ($align == 'bottom') {
+                $parameters['top'] = $element->getLocation()->getY() + $element->getSize()->getHeight() - 20;
+                $parameters['height'] = 20;
+            } else if ($align == 'top') {
+                $parameters['top'] = $element->getLocation()->getY();
+                $parameters['height'] = 20;
+            } else {
+                $parameters['top'] = $element->getLocation()->getY();
+                $parameters['height'] = $element->getSize()->getHeight();
+            }
         } else {
             $parameters['elementId'] = $element->getID();
         }
