@@ -58,7 +58,7 @@ class RemoteAppiumDriver extends RemoteWebDriver
 
     public function pushFile(string $path, string $data)
     {
-        return $this->executeCustomCommand("/session/:sessionId/appium/device/push_file",'POST', ['path' => $path, 'data' => $data]);
+        return $this->executeCustomCommand("/session/:sessionId/appium/device/push_file", 'POST', ['path' => $path, 'data' => $data]);
     }
 
     public function getDisplayDensity()
@@ -95,7 +95,6 @@ class RemoteAppiumDriver extends RemoteWebDriver
             "script" => "mobile: scroll",
             "args" => $args
         ]);
-
     }
 
     public function swipe(RemoteWebElement $element, string $direction, float $percent, int $speed = 10000, string $align = 'center')
@@ -105,16 +104,18 @@ class RemoteAppiumDriver extends RemoteWebDriver
             'percent' => $percent,
             'speed' => $speed,
         ];
-        if (in_array($direction, ['left','right'])) {
+        if (in_array($direction, ['left', 'right'])) {
             $parameters['left'] = max($element->getLocation()->getX(), 100);
             $parameters['width'] = min(880, $element->getSize()->getWidth());
 
             if ($align == 'bottom') {
-                $parameters['top'] = $element->getLocation()->getY() + $element->getSize()->getHeight() - 20;
-                $parameters['height'] = 20;
+                $height = round($element->getSize()->getHeight() / 2);
+                $parameters['top'] = $element->getLocation()->getY() + $height;
+                $parameters['height'] = $height;
             } else if ($align == 'top') {
+                $height = round($element->getSize()->getHeight() / 2);
                 $parameters['top'] = $element->getLocation()->getY();
-                $parameters['height'] = 20;
+                $parameters['height'] = $height;
             } else {
                 $parameters['top'] = $element->getLocation()->getY();
                 $parameters['height'] = $element->getSize()->getHeight();
@@ -163,7 +164,7 @@ class RemoteAppiumDriver extends RemoteWebDriver
         } else {
             $parameters['elementId'] = $area;
         }
-       return $this->executeGesture("pinchOpen", $parameters);
+        return $this->executeGesture("pinchOpen", $parameters);
     }
 
     public function executeStartActivity($intent, array $parameters = [])
@@ -173,7 +174,6 @@ class RemoteAppiumDriver extends RemoteWebDriver
             "script" => "mobile: startActivity",
             "args" => $parameters
         ]);
-
     }
 
     public function tap($x, $y)
@@ -184,8 +184,10 @@ class RemoteAppiumDriver extends RemoteWebDriver
     protected function performTouch($action, array $options)
     {
         return $this->executeCustomCommand("/session/:sessionId/touch/perform", 'POST', [
-            "action" => $action,
-            "options" => $options
+            "actions" => [
+                "action" => $action,
+                "options" => $options
+            ]
         ]);
     }
 
@@ -195,8 +197,5 @@ class RemoteAppiumDriver extends RemoteWebDriver
             "script" => "mobile: {$name}Gesture",
             "args" => $parameters
         ]);
-
     }
-
-
 }
