@@ -28,6 +28,11 @@ class AppiumDriverBy extends WebDriverBy
         return new static('-android uiautomator', 'new UiSelector().text("' . $text . '")');
     }
 
+    public static function image($file_location)
+    {
+        return new static('-image', base64_encode(file_get_contents($file_location)));
+    }
+
 
     /**
      * Locates elements whose class name contains the search value; compound class
