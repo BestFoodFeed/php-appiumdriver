@@ -49,7 +49,8 @@ class AppiumDriverBy extends WebDriverBy
      */
     public static function id($id)
     {
-        return new static('id', static::$baseId . $id);
+        $text = str_contains($id, ":") ? $id : static::$baseId . $id;
+        return new static('id', $text);
     }
 
     /**
