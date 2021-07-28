@@ -6,6 +6,10 @@ use Facebook\WebDriver\WebDriverBy;
 
 class RemoteAppiumDriver extends RemoteWebDriver
 {
+    public function setIsW3cCompliant($value)
+    {
+        $this->isW3cCompliant = $value;
+    }
 
     public function setImplicitWait(int $ms)
     {
