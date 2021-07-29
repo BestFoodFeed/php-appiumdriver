@@ -194,8 +194,10 @@ class RemoteAppiumDriver extends RemoteWebDriver
     {
         return $this->executeCustomCommand("/session/:sessionId/touch/perform", 'POST', [
             "actions" => [
-                "action" => $action,
-                "options" => $options
+                [
+                    "action" => $action,
+                    "options" => $options
+                ]
             ]
         ]);
     }
