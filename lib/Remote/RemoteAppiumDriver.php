@@ -82,6 +82,11 @@ class RemoteAppiumDriver extends RemoteWebDriver
         return $this->executeCustomCommand("/session/:sessionId/appium/device/current_activity", 'GET');
     }
 
+    public function screenshot()
+    {
+        return $this->executeCustomCommand("/session/:sessionId/screenshot", 'GET');
+    }
+
     public function executeScroll($strategy, $selector, $elementId = null, $maxSwipes = null)
     {
         $args = [
