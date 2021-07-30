@@ -31,6 +31,10 @@ class RemoteAppiumDriver extends RemoteWebDriver
         }
     }
 
+    public function getClipboard($text)
+    {
+        return $this->executeCustomCommand("/session/:sessionId/appium/device/get_clipboard", 'POST', ['contentType' => 'plaintext']);
+    }
     public function setClipboard($text)
     {
         return $this->executeCustomCommand("/session/:sessionId/appium/device/set_clipboard", 'POST', ['content' => base64_encode($text)]);
